@@ -1,4 +1,4 @@
-function levenshteinDistance(a: string, b: string): number {
+export default function levenshteinDistance(a: string, b: string): number {
     const dp = Array(a.length + 1).fill(null).map(() => Array(b.length + 1).fill(0));
 
     for (let i = 0; i <= a.length; i++) {
