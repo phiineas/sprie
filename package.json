@@ -1,17 +1,47 @@
 {
   "name": "sprie",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "A TypeScript-based spell checker CLI using Trie data structure and Levenshtein distance algorithm",
+  "main": "dist/index.js",
+  "bin": {
+    "sprie": "./dist/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "ts-node test/test.ts",
+    "test-file": "ts-node src/index.ts data/sample.txt",
+    "test-stdin": "echo \"helo wrold this is a tset\" | ts-node src/index.ts",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "spell-checker",
+    "typescript",
+    "cli",
+    "trie",
+    "levenshtein-distance",
+    "text-processing",
+    "spell-check",
+    "dictionary"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "files": [
+    "dist/**/*",
+    "data/dictionary.txt",
+    "README.md"
+  ],
   "dependencies": {
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.0.10"
+  },
+  "devDependencies": {
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
