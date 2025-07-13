@@ -1,0 +1,23 @@
+This is a sample text file for testing the sprie spell checker.
+
+It contains some mispelled words like "recieve" and "seperate" that should be detected.
+The spell checker should also find errors like "definately" and "occured".
+
+Here are some technology-related words that might have errors:
+- algorthm (should be algorithm)
+- programe (should be program)  
+- developement (should be development)
+- compter (should be computer)
+
+The spell checker uses a Trie data strcture to efficiently store and search through
+the dictionary. It also implements the Levenshtein distance algorithim to provide
+suggestions for misspelled words.
+
+Some common grammar mistakes:
+- Their going to the store (should be They're)
+- The weather is quiet nice (should be quite)
+- I need advise on this matter (should be advice)
+- This will not effect the outcome (should be affect)
+
+Let's test with some proper words too:
+typescript, javascript, node, development, programming, algorithm, data, structure
