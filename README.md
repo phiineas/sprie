@@ -18,7 +18,7 @@ A command-line spell checker built with TypeScript that uses a Trie (Prefix Tree
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/phiineas/sprie.git
 cd sprie
 
 # Install dependencies
