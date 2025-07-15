@@ -1,17 +1,16 @@
 # Sprie - TypeScript Spell Checker CLI
 
-A powerful command-line spell checker built with TypeScript that uses a Trie (Prefix Tree) data structure for efficient dictionary storage and the Levenshtein distance algorithm for intelligent word suggestions.
+A command-line spell checker built with TypeScript that uses a Trie (Prefix Tree) data structure for efficient dictionary storage and the Levenshtein distance algorithm for intelligent word suggestions.
 
 ## Features
 
 - **Efficient Dictionary Storage**: Uses Trie data structure for fast word lookups
 - **Smart Suggestions**: Levenshtein distance algorithm for accurate spell correction
-- **Prefix-based Suggestions**: Find words with common prefixes
-- **Phonetic Suggestions**: Basic phonetic transformations for better suggestions
 - **File & Stdin Support**: Check files or input text directly
 - **Customizable Options**: Configure suggestion count, edit distance, and more
 - **Report Generation**: Generate detailed spell check reports
-- **Common Words Filter**: Option to ignore common English words
+- **Comprehensive Dictionary**: Built-in dictionary with common English words and programming terms
+- **Line and Column Reporting**: Shows exact location of spelling errors in files
 
 ## Installation
 
@@ -43,26 +42,29 @@ npm install -g sprie
 ### Command Line Interface
 
 ```bash
-# Check a file for spelling errors
-sprie document.txt
+# Check a file for spelling errors (using npm start)
+npm start data/sample.txt
+
+# Or run directly with node
+node dist/src/index.js document.txt
 
 # Check a file with custom options
-sprie --file document.txt --max-suggestions 3 --max-distance 2
+npm start -- --file document.txt --max-suggestions 3 --max-distance 2
 
 # Use a custom dictionary
-sprie --file document.txt --dictionary my-dictionary.txt
+node dist/src/index.js --file document.txt --dictionary my-dictionary.txt
 
 # Generate a report
-sprie --file document.txt --output report.txt
+npm start -- --file document.txt --output report.txt
 
 # Check text from stdin
-echo "helo wrold" | sprie
+echo "helo wrold" | npm start
 
 # Show help
-sprie --help
+npm start -- --help
 
 # Show version
-sprie --version
+npm start -- --version
 ```
 
 ### Available Options
@@ -70,7 +72,7 @@ sprie --version
 | Option | Short | Description | Default |
 |--------|-------|-------------|---------|
 | `--file` | `-f` | File to check for spelling errors | - |
-| `--dictionary` | `-d` | Custom dictionary file path | Built-in dictionary |
+| `--dictionary` | `-d` | Custom dictionary file path | `data/dictionary.txt` |
 | `--output` | `-o` | Output report file path | - |
 | `--max-suggestions` | `-s` | Maximum number of suggestions | 5 |
 | `--max-distance` | `-m` | Maximum edit distance for suggestions | 2 |
@@ -82,19 +84,47 @@ sprie --version
 
 ```bash
 # Basic file checking
-sprie document.txt
+npm start data/sample.txt
 
 # Check with custom dictionary and save report
-sprie --file essay.txt --dictionary technical-terms.txt --output spell-report.txt
+npm start -- --file essay.txt --dictionary technical-terms.txt --output spell-report.txt
 
 # Get more suggestions with higher edit distance
-sprie --file article.txt --max-suggestions 10 --max-distance 3
+npm start -- --file article.txt --max-suggestions 10 --max-distance 3
 
 # Check text from command line
-echo "Ths is a tset" | sprie
+echo "helo wrold this is a tset" | npm start
 
 # Interactive mode (type text and press Ctrl+D when done)
-sprie
+npm start
+```
+
+### Sample Output
+
+```
+loading dictionary from: D:\desktop\sprie\data\dictionary.txt
+dictionary loaded successfully
+
+checking file: data/sample.txt
+
+found 12 spelling errors:
+
+1. "mispelled" (line 3, column 18)
+   suggestions: misspelled
+
+2. "recieve" (line 3, column 40)
+   suggestions: believe, receive, recent, recommend
+
+3. "seperate" (line 3, column 54)
+   suggestions: separate
+
+4. "definately" (line 4, column 49)
+   suggestions: definitely
+
+5. "occured" (line 4, column 66)
+   suggestions: occurred, occasion
+
+... (additional errors)
 ```
 
 ## Dictionary Format
@@ -130,6 +160,10 @@ sprie/
 │   ├── dictionary.txt           # Default dictionary
 │   └── sample.txt              # Sample test file
 ├── dist/                       # Compiled JavaScript (generated)
+├── test/
+│   └── test.ts                 # Unit tests
+├── scripts/
+│   └── setup.ts                # Setup script
 ├── package.json
 ├── tsconfig.json
 └── README.md
@@ -167,7 +201,7 @@ sprie/
 4. **Suggestion Generation**:
    - Edit distance-based suggestions using dynamic programming
    - Prefix-based suggestions from Trie traversal
-   - Phonetic suggestions using common letter substitutions
+   - Suggestions ranked by edit distance (lower is better)
 
 ## API Reference
 
@@ -179,8 +213,6 @@ import { SpellChecker, SpellCheckOptions } from './spellChecker';
 const options: SpellCheckOptions = {
     maxSuggestions: 5,
     maxDistance: 2,
-    includePrefixSuggestions: true,
-    ignoreCommonWords: true,
     customIgnoreWords: ['myterm', 'mycompany']
 };
 
@@ -226,20 +258,33 @@ console.log(trie.getWordsWithinDistance('helo', 2)); // ['hello']
 ### Scripts
 
 ```bash
-# Development with auto-reload
-npm run dev
-
 # Build TypeScript to JavaScript
 npm run build
 
-# Test with sample file
+# Run unit tests
 npm run test
-
-# Test with stdin
-npm run test-stdin
 
 # Clean build directory
 npm run clean
+```
+
+### Building and Testing
+
+```bash
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Test with sample file
+node dist/src/index.js data/sample.txt
+
+# Test with stdin
+echo "helo wrold this is a tset" | node dist/src/index.js
+
+# Run unit tests
+node dist/test/test.js
 ```
 
 ### Adding New Features
@@ -251,22 +296,39 @@ npm run clean
 
 ## Performance
 
-- **Dictionary Size**: Handles dictionaries with 100K+ words efficiently
+- **Dictionary Size**: Handles dictionaries with 10K+ words efficiently
 - **Memory Usage**: Trie structure shares common prefixes, reducing memory footprint
 - **Speed**: O(m) word lookup time where m is average word length
-- **Suggestions**: Optimized dynamic programming for edit distance calculations
+- **Suggestions**: Dynamic programming for edit distance calculations
+
+## Current Implementation Status
+
+### Implemented Features
+- ✅ Core spell checking functionality
+- ✅ Trie data structure for dictionary storage
+- ✅ Levenshtein distance algorithm for suggestions
+- ✅ File and stdin input support
+- ✅ Command-line argument parsing
+- ✅ Error reporting with line and column numbers
+- ✅ Customizable suggestion limits and edit distance
+- ✅ Comprehensive dictionary with common English words
+- ✅ Unit tests for core functionality
+
+### Known Limitations
+- Basic word tokenization (regex-based)
+- No phonetic suggestions (Soundex, Metaphone)
+- No context-aware suggestions
+- No multiple language support
+- No real-time spell checking
+- No advanced file format support beyond plain text
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
+3. Commit your changes (`git commit -m 'add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
@@ -280,7 +342,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Multiple language support
 - [ ] Context-aware suggestions
 - [ ] Machine learning-based corrections
-- [ ] Web interface
-- [ ] VS Code extension
 - [ ] Real-time spell checking
 - [ ] Custom rule-based corrections

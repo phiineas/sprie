@@ -2,13 +2,13 @@
   "name": "sprie",
   "version": "1.0.0",
   "description": "A TypeScript-based spell checker CLI using Trie data structure and Levenshtein distance algorithm",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "bin": {
-    "sprie": "./dist/index.js"
+    "sprie": "./dist/src/index.js"
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "dev": "ts-node src/index.ts",
     "test": "ts-node test/test.ts",
     "test-file": "ts-node src/index.ts data/sample.txt",
